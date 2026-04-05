@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能镜 - 数据趋势</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/trends.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 全息网格背景 -->
+        <div class="holographic-grid"></div>
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <a href="scan.html" class="back-button">←</a>
+            <div class="time" id="time">10:30</div>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content">
+            <!-- 页面标题 -->
+            <div class="page-header">
+                <div class="page-title">数据趋势分析</div>
+                <div class="page-subtitle">过去 30 天的皮肤健康追踪</div>
+            </div>
+
+            <!-- 时间范围选择 -->
+            <div class="time-range">
+                <button class="range-btn">7天</button>
+                <button class="range-btn active">30天</button>
+                <button class="range-btn">90天</button>
+            </div>
+
+            <!-- 面部区域选择 -->
+            <div class="face-areas">
+                <button class="area-btn active" data-area="dark-circles">黑眼圈</button>
+                <button class="area-btn" data-area="wrinkles">法令纹</button>
+                <button class="area-btn" data-area="pores">毛孔</button>
+                <button class="area-btn" data-area="spots">色斑</button>
+                <button class="area-btn" data-area="acne">痘痘</button>
+            </div>
+
+            <!-- 每周热力图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">本周检测记录</div>
+                    <div class="chart-icon">📅</div>
+                </div>
+                <div class="area-name" id="areaName">黑眼圈变化趋势</div>
+                <div class="heatmap">
+                    <div class="heatmap-cell high" data-day="1">
+                        <div class="cell-day">周一</div>
+                        <div class="cell-value">92</div>
+                    </div>
+                    <div class="heatmap-cell high" data-day="2">
+                        <div class="cell-day">周二</div>
+                        <div class="cell-value">88</div>
+                    </div>
+                    <div class="heatmap-cell medium" data-day="3">
+                        <div class="cell-day">周三</div>
+                        <div class="cell-value">75</div>
+                    </div>
+                    <div class="heatmap-cell high" data-day="4">
+                        <div class="cell-day">周四</div>
+                        <div class="cell-value">90</div>
+                    </div>
+                    <div class="heatmap-cell medium" data-day="5">
+                        <div class="cell-day">周五</div>
+                        <div class="cell-value">82</div>
+                    </div>
+                    <div class="heatmap-cell low" data-day="6">
+                        <div class="cell-day">周六</div>
+                        <div class="cell-value">68</div>
+                    </div>
+                    <div class="heatmap-cell high" data-day="7">
+                        <div class="cell-day">周日</div>
+                        <div class="cell-value">95</div>
+                    </div>
+                </div>
+                <div class="trend-summary" id="trendSummary">
+                    <div class="summary-icon">📈</div>
+                    <div class="summary-text">本周黑眼圈整体改善 <span class="trend-up">+8%</span></div>
+                </div>
+            </div>
+
+            <!-- 详细数据卡片（点击某天后显示） -->
+            <div class="detail-card" id="detailCard" style="display: none;">
+                <div class="detail-header">
+                    <div class="detail-title" id="detailTitle">周一详情</div>
+                    <button class="close-btn" id="closeDetail">×</button>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-score">
+                        <div class="score-value" id="detailScore">92</div>
+                        <div class="score-label">健康指数</div>
+                    </div>
+                    <div class="detail-comparison">
+                        <div class="comparison-item">
+                            <span class="comparison-label">较昨日</span>
+                            <span class="comparison-value up" id="comparisonYesterday">+4</span>
+                        </div>
+                        <div class="comparison-item">
+                            <span class="comparison-label">较上周同期</span>
+                            <span class="comparison-value up" id="comparisonLastWeek">+6</span>
+                        </div>
+                    </div>
+                    <div class="detail-note" id="detailNote">
+                        黑眼圈明显改善，继续保持良好作息
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI 建议 -->
+            <div class="recommendations">
+                <div class="chart-card" style="margin-bottom: 15px;">
+                    <div class="chart-header">
+                        <div class="chart-title">AI 个性化建议</div>
+                        <div class="chart-icon">🤖</div>
+                    </div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">💧</div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">保持良好的补水习惯</div>
+                        <div class="recommendation-text">您的水分含量在过去一周提升了 5%，建议继续保持每天 8 杯水的摄入量。</div>
+                    </div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">☀️</div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">加强防晒保护</div>
+                        <div class="recommendation-text">UV 检测显示周末紫外线暴露增加，建议使用 SPF 50+ 防晒霜。</div>
+                    </div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">😴</div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">改善睡眠质量</div>
+                        <div class="recommendation-text">周六的皮肤弹性下降可能与睡眠不足有关，建议保持 7-8 小时睡眠。</div>
+                    </div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">🥗</div>
+                    <div class="recommendation-content">
+                        <div class="recommendation-title">补充维生素 C</div>
+                        <div class="recommendation-text">皮肤纹理分析显示需要更多抗氧化剂，建议增加水果和蔬菜摄入。</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-spacer"></div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/trends.js"></script>
+</body>
+</html>

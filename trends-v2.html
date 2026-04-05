@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能镜 - 美丽进化史</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/trends-v2.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 全息网格背景 -->
+        <div class="holographic-grid"></div>
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <a href="scan.html" class="back-button">←</a>
+            <div class="time" id="time">10:30</div>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content">
+            <!-- 页面标题 -->
+            <div class="page-header">
+                <div class="page-title">你的美丽进化史</div>
+                <div class="page-subtitle" id="motivationText">你的皮肤状态越来越好了</div>
+            </div>
+
+            <!-- 面部地图视图 -->
+            <div class="view-container" id="faceView">
+                <!-- SVG 面部轮廓 -->
+                <div class="face-map-container">
+                    <svg class="face-map" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 脸部轮廓 -->
+                        <ellipse cx="100" cy="130" rx="70" ry="90" fill="rgba(0,0,0,0.3)" stroke="rgba(0,255,255,0.3)" stroke-width="1"/>
+
+                        <!-- 额头区域 -->
+                        <ellipse class="face-area" data-area="forehead" cx="100" cy="70" rx="50" ry="25" fill="rgba(0,255,255,0.2)" stroke="rgba(0,255,255,0.5)" stroke-width="2"/>
+                        <text x="100" y="75" text-anchor="middle" fill="#00ffff" font-size="10">额头</text>
+
+                        <!-- 左眼区域 -->
+                        <ellipse class="face-area" data-area="left-eye" cx="70" cy="110" rx="20" ry="15" fill="rgba(0,255,255,0.3)" stroke="rgba(0,255,255,0.6)" stroke-width="2"/>
+                        <text x="70" y="113" text-anchor="middle" fill="#00ffff" font-size="9">左眼</text>
+
+                        <!-- 右眼区域 -->
+                        <ellipse class="face-area" data-area="right-eye" cx="130" cy="110" rx="20" ry="15" fill="rgba(0,255,255,0.3)" stroke="rgba(0,255,255,0.6)" stroke-width="2"/>
+                        <text x="130" y="113" text-anchor="middle" fill="#00ffff" font-size="9">右眼</text>
+
+                        <!-- 鼻子区域 -->
+                        <ellipse class="face-area" data-area="nose" cx="100" cy="135" rx="15" ry="25" fill="rgba(0,255,255,0.25)" stroke="rgba(0,255,255,0.5)" stroke-width="2"/>
+                        <text x="100" y="140" text-anchor="middle" fill="#00ffff" font-size="9">鼻子</text>
+
+                        <!-- 左脸颊 -->
+                        <ellipse class="face-area" data-area="left-cheek" cx="55" cy="145" rx="25" ry="30" fill="rgba(0,255,255,0.2)" stroke="rgba(0,255,255,0.5)" stroke-width="2"/>
+                        <text x="55" y="150" text-anchor="middle" fill="#00ffff" font-size="9">左颊</text>
+
+                        <!-- 右脸颊 -->
+                        <ellipse class="face-area" data-area="right-cheek" cx="145" cy="145" rx="25" ry="30" fill="rgba(0,255,255,0.2)" stroke="rgba(0,255,255,0.5)" stroke-width="2"/>
+                        <text x="145" y="150" text-anchor="middle" fill="#00ffff" font-size="9">右颊</text>
+
+                        <!-- 嘴部区域 -->
+                        <ellipse class="face-area" data-area="mouth" cx="100" cy="180" rx="30" ry="20" fill="rgba(0,255,255,0.2)" stroke="rgba(0,255,255,0.5)" stroke-width="2"/>
+                        <text x="100" y="185" text-anchor="middle" fill="#00ffff" font-size="9">嘴部</text>
+
+                        <!-- 下巴区域 -->
+                        <ellipse class="face-area" data-area="chin" cx="100" cy="215" rx="35" ry="25" fill="rgba(0,255,255,0.2)" stroke="rgba(0,255,255,0.5)" stroke-width="2"/>
+                        <text x="100" y="220" text-anchor="middle" fill="#00ffff" font-size="9">下巴</text>
+                    </svg>
+
+                    <div class="face-map-hint">点击面部区域查看详情</div>
+                </div>
+
+                <!-- 快速洞察卡片 -->
+                <div class="insight-card">
+                    <div class="insight-icon">💡</div>
+                    <div class="insight-content">
+                        <div class="insight-title">本周发现</div>
+                        <div class="insight-text" id="insightText">你周末的皮肤状态最好，可能和充足睡眠有关哦</div>
+                    </div>
+                </div>
+
+                <!-- 区域详情卡片 -->
+                <div class="area-detail-card" id="areaDetailCard" style="display: none;">
+                    <div class="detail-close" id="closeAreaDetail">×</div>
+                    <div class="area-detail-header">
+                        <div class="area-icon" id="areaIcon">👁️</div>
+                        <div class="area-info">
+                            <div class="area-name" id="areaDetailName">黑眼圈</div>
+                            <div class="area-status" id="areaStatus">持续改善中</div>
+                        </div>
+                    </div>
+
+                    <!-- 30天变化图表 -->
+                    <div class="area-chart-container">
+                        <div class="chart-title-small">30天变化趋势</div>
+
+                        <!-- 照片时间轴 -->
+                        <div class="photo-timeline">
+                            <div class="photo-display">
+                                <img id="timelinePhoto" src="images/forehead/day1.jpg" alt="额头照片">
+                                <div class="photo-overlay">
+                                    <div class="photo-score">
+                                        <span class="score-label-small">健康指数</span>
+                                        <span class="score-value-large" id="photoScore">65</span>
+                                    </div>
+                                    <div class="photo-change up" id="photoChange">+0</div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-slider-wrapper">
+                                <input type="range" class="timeline-slider" id="photoSlider" min="0" max="29" value="0" step="1">
+                                <div class="timeline-info">
+                                    <div>
+                                        <span class="timeline-day" id="currentDay">第1天</span>
+                                        <span class="timeline-date" id="currentDate">12月5日</span>
+                                    </div>
+                                    <div class="timeline-date">滑动查看历史</div>
+                                </div>
+                            </div>
+
+                            <!-- 快速导航 -->
+                            <div class="quick-nav">
+                                <button class="quick-nav-btn active" data-day="0">第1天</button>
+                                <button class="quick-nav-btn" data-day="6">第7天</button>
+                                <button class="quick-nav-btn" data-day="13">第14天</button>
+                                <button class="quick-nav-btn" data-day="20">第21天</button>
+                                <button class="quick-nav-btn" data-day="29">今天</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="area-advice" id="areaAdvice">
+                        继续保持良好作息，你的黑眼圈正在快速改善！
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI 建议 -->
+            <div class="recommendations">
+                <div class="section-title">
+                    <span class="title-icon">✨</span>
+                    <span>AI 美容顾问</span>
+                </div>
+
+                <!-- 卡片轮播 -->
+                <div class="cards-carousel">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-track" id="carouselTrack">
+                            <!-- 卡片1：抗老精华 -->
+                            <div class="carousel-card active">
+                                <div class="card-header">
+                                    <div class="card-icon-large">🧴</div>
+                                </div>
+                                <div class="card-title">添加抗老精华</div>
+                                <div class="card-description">
+                                    检测到额头细纹在过去7天加深了 <span class="card-highlight red">2%</span>，建议立即开始抗老护理
+                                </div>
+                                <div class="card-details">
+                                    <div class="detail-item">
+                                        <div class="detail-label">推荐成分</div>
+                                        <div class="detail-value">视黄醇 0.5%、玻色因、六胜肽</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">使用时机</div>
+                                        <div class="detail-value">晚间护肤，洁面后第二步使用</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">预期效果</div>
+                                        <div class="detail-value">2周后细纹淡化15%，4周后改善30%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 卡片2：防晒提醒 -->
+                            <div class="carousel-card">
+                                <div class="card-header">
+                                    <div class="card-icon-large">☀️</div>
+                                </div>
+                                <div class="card-title">防晒保护不足</div>
+                                <div class="card-description">
+                                    UV检测显示你的防晒保护不足，色斑风险在 <span class="card-highlight red">7天内</span> 可能增加
+                                </div>
+                                <div class="card-details">
+                                    <div class="detail-item">
+                                        <div class="detail-label">建议指数</div>
+                                        <div class="detail-value">SPF 50+ PA++++</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">使用频率</div>
+                                        <div class="detail-value">每天早晨，户外每2小时补涂</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">关键时段</div>
+                                        <div class="detail-value">上午10点-下午4点必须防晒</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 卡片3：早睡提醒 -->
+                            <div class="carousel-card">
+                                <div class="card-header">
+                                    <div class="card-icon-large">🌙</div>
+                                </div>
+                                <div class="card-title">早睡提醒</div>
+                                <div class="card-description">
+                                    你的皮肤在睡眠充足时恢复最快，建议每晚 <span class="card-highlight green">11点前</span> 入睡
+                                </div>
+                                <div class="card-details">
+                                    <div class="detail-item">
+                                        <div class="detail-label">最佳入睡时间</div>
+                                        <div class="detail-value">晚上10:30 - 11:00</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">睡眠时长</div>
+                                        <div class="detail-value">建议7-8小时高质量睡眠</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">睡眠对皮肤的影响</div>
+                                        <div class="detail-value">睡眠不足会导致黑眼圈、皮肤暗沉、加速老化</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 轮播导航 -->
+                    <div class="carousel-nav" id="carouselNav">
+                        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+                        <div class="nav-dot" onclick="goToSlide(1)"></div>
+                        <div class="nav-dot" onclick="goToSlide(2)"></div>
+                    </div>
+
+                    <!-- 左右箭头 -->
+                    <div class="carousel-arrows">
+                        <button class="arrow-btn" id="prevBtn" onclick="prevSlide()">←</button>
+                        <button class="arrow-btn" id="nextBtn" onclick="nextSlide()">→</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-spacer"></div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/trends-v2.js"></script>
+</body>
+</html>

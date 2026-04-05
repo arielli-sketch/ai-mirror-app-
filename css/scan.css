@@ -1,0 +1,201 @@
+/* 扫描页面专用样式 */
+
+/* 主扫描区域 */
+.scan-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 420px;
+}
+
+/* 面部框架 */
+.face-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* 扫描线 - 多层 */
+.scan-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 255, 0.3) 20%,
+        rgba(0, 255, 255, 1) 50%,
+        rgba(0, 255, 255, 0.3) 80%,
+        transparent 100%
+    );
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    animation: scan 3s linear infinite;
+}
+
+.scan-line:nth-child(2) {
+    animation-delay: 1s;
+    opacity: 0.6;
+}
+
+.scan-line:nth-child(3) {
+    animation-delay: 2s;
+    opacity: 0.4;
+}
+
+@keyframes scan {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* 面部特征点 */
+.face-points {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.point {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00ffff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    animation: pointPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pointPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.6; }
+}
+
+/* 面部特征点位置 */
+.point-1 { top: 25%; left: 35%; animation-delay: 0s; }
+.point-2 { top: 25%; right: 35%; animation-delay: 0.1s; }
+.point-3 { top: 35%; left: 25%; animation-delay: 0.2s; }
+.point-4 { top: 35%; right: 25%; animation-delay: 0.3s; }
+.point-5 { top: 45%; left: 50%; transform: translateX(-50%); animation-delay: 0.4s; }
+.point-6 { top: 55%; left: 30%; animation-delay: 0.5s; }
+.point-7 { top: 55%; right: 30%; animation-delay: 0.6s; }
+.point-8 { top: 65%; left: 40%; animation-delay: 0.7s; }
+.point-9 { top: 65%; right: 40%; animation-delay: 0.8s; }
+.point-10 { top: 75%; left: 50%; transform: translateX(-50%); animation-delay: 0.9s; }
+
+/* 圆形扫描波 */
+.radar-rings {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.radar-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: radarExpand 3s ease-out infinite;
+}
+
+.radar-ring:nth-child(2) { animation-delay: 1s; }
+.radar-ring:nth-child(3) { animation-delay: 2s; }
+
+@keyframes radarExpand {
+    0% {
+        width: 50px;
+        height: 50px;
+        opacity: 1;
+    }
+    100% {
+        width: 350px;
+        height: 350px;
+        opacity: 0;
+    }
+}
+
+
+/* 角落装饰 */
+.corner-decoration {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(0, 255, 255, 0.5);
+}
+
+.corner-tl {
+    top: 80px;
+    left: 20px;
+    border-right: none;
+    border-bottom: none;
+    animation: cornerGlow 2s ease-in-out infinite;
+}
+
+.corner-tr {
+    top: 80px;
+    right: 20px;
+    border-left: none;
+    border-bottom: none;
+    animation: cornerGlow 2s ease-in-out infinite 0.5s;
+}
+
+.corner-bl {
+    bottom: 140px;
+    left: 20px;
+    border-right: none;
+    border-top: none;
+    animation: cornerGlow 2s ease-in-out infinite 1s;
+}
+
+.corner-br {
+    bottom: 140px;
+    right: 20px;
+    border-left: none;
+    border-top: none;
+    animation: cornerGlow 2s ease-in-out infinite 1.5s;
+}
+
+@keyframes cornerGlow {
+    0%, 100% { opacity: 0.5; box-shadow: none; }
+    50% { opacity: 1; box-shadow: 0 0 15px rgba(0, 255, 255, 0.6); }
+}
+
+/* 底部导航按钮 */
+.nav-button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 255, 255, 0.2);
+    border: 2px solid rgba(0, 255, 255, 0.5);
+    border-radius: 25px;
+    padding: 12px 30px;
+    color: #00ffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    backdrop-filter: blur(10px);
+}
+
+.nav-button:hover {
+    background: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    transform: translateX(-50%) scale(1.05);
+}
+

@@ -1,0 +1,526 @@
+/* 趋势页面专用样式 */
+
+.app-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.holographic-grid {
+    position: fixed;
+}
+
+.status-bar {
+    position: sticky;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+/* 内容区域 */
+.content {
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* 页面标题 */
+.page-header {
+    margin-bottom: 30px;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #00ffff;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* 时间范围选择器 */
+.time-range {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    animation: fadeIn 0.6s ease-out 0.2s both;
+}
+
+.range-btn {
+    flex: 1;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.range-btn.active {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: #00ffff;
+    color: #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+/* 面部区域选择 */
+.face-areas {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 25px;
+    animation: fadeIn 0.6s ease-out 0.25s both;
+    flex-wrap: wrap;
+}
+
+.area-btn {
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.area-btn.active {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: #00ffff;
+    color: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.area-btn:hover {
+    border-color: rgba(0, 255, 255, 0.5);
+}
+
+/* 统计卡片 */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+    animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.stat-card {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #00ffff;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-change {
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.stat-change.up {
+    color: #00ff88;
+}
+
+.stat-change.down {
+    color: #ff4444;
+}
+
+/* 图表卡片 */
+.chart-card {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.chart-icon {
+    font-size: 20px;
+}
+
+/* 折线图 */
+.line-chart {
+    position: relative;
+    height: 180px;
+    margin-bottom: 10px;
+}
+
+.chart-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.grid-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.chart-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.chart-path {
+    fill: none;
+    stroke: #00ffff;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
+    animation: drawLine 2s ease-out;
+}
+
+@keyframes drawLine {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+}
+
+.chart-fill {
+    fill: url(#gradient);
+    opacity: 0.3;
+}
+
+.chart-point {
+    fill: #00ffff;
+    filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.8));
+    animation: pointPulse 2s ease-in-out infinite;
+}
+
+@keyframes pointPulse {
+    0%, 100% { r: 4; }
+    50% { r: 5; }
+}
+
+/* X轴标签 */
+.chart-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 10px;
+}
+
+/* 热力图 */
+.area-name {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.heatmap {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.heatmap-cell {
+    aspect-ratio: 1;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    transition: all 0.3s;
+    animation: cellFadeIn 0.6s ease-out both;
+    cursor: pointer;
+}
+
+.heatmap-cell:hover {
+    transform: scale(1.1);
+    border-color: rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+@keyframes cellFadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.heatmap-cell:nth-child(1) { animation-delay: 0.1s; }
+.heatmap-cell:nth-child(2) { animation-delay: 0.15s; }
+.heatmap-cell:nth-child(3) { animation-delay: 0.2s; }
+.heatmap-cell:nth-child(4) { animation-delay: 0.25s; }
+.heatmap-cell:nth-child(5) { animation-delay: 0.3s; }
+.heatmap-cell:nth-child(6) { animation-delay: 0.35s; }
+.heatmap-cell:nth-child(7) { animation-delay: 0.4s; }
+
+.heatmap-cell.high {
+    background: rgba(0, 255, 255, 0.4);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.heatmap-cell.medium {
+    background: rgba(0, 255, 255, 0.25);
+    border-color: rgba(0, 255, 255, 0.4);
+}
+
+.heatmap-cell.low {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: rgba(0, 255, 255, 0.2);
+}
+
+.cell-day {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 2px;
+}
+
+.cell-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #00ffff;
+}
+
+/* 趋势总结 */
+.trend-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.summary-icon {
+    font-size: 20px;
+}
+
+.summary-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.trend-up {
+    color: #00ff88;
+    font-weight: 600;
+}
+
+.trend-down {
+    color: #ff4444;
+    font-weight: 600;
+}
+
+/* 详细数据卡片 */
+.detail-card {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.detail-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #00ffff;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    color: #00ffff;
+    transform: rotate(90deg);
+}
+
+.detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-score {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 15px;
+}
+
+.score-value {
+    font-size: 48px;
+    font-weight: 700;
+    color: #00ffff;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.score-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+}
+
+.detail-comparison {
+    display: flex;
+    gap: 10px;
+}
+
+.comparison-item {
+    flex: 1;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.comparison-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.comparison-value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.comparison-value.up {
+    color: #00ff88;
+}
+
+.comparison-value.down {
+    color: #ff4444;
+}
+
+.detail-note {
+    padding: 12px;
+    background: rgba(0, 255, 255, 0.05);
+    border-left: 3px solid #00ffff;
+    border-radius: 5px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+/* 建议卡片 */
+.recommendations {
+    animation: fadeIn 0.6s ease-out 0.5s both;
+}
+
+.recommendation-item {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    transition: all 0.3s;
+}
+
+.recommendation-item:hover {
+    transform: translateX(5px);
+    border-color: rgba(0, 255, 255, 0.5);
+}
+
+.recommendation-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.recommendation-content {
+    flex: 1;
+}
+
+.recommendation-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.recommendation-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+}
+
+/* 底部间距 */
+.bottom-spacer {
+    height: 40px;
+}
