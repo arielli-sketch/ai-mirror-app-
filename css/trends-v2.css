@@ -147,10 +147,24 @@ body {
 }
 
 .face-area:hover {
-    fill: rgba(244, 114, 182, 0.4);
-    stroke: rgba(236, 72, 153, 0.9);
+    fill: rgba(236, 72, 153, 0.2);
+    stroke: #ec4899;
     stroke-width: 2.5;
-    filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.5));
+    filter: drop-shadow(0 0 12px rgba(236, 72, 153, 0.5));
+    transform-origin: center;
+}
+
+.face-area:active {
+    fill: rgba(236, 72, 153, 0.35);
+    transform: scale(0.98);
+}
+
+.face-map-container {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 24px;
+    padding: 20px;
+    border: 1px solid rgba(244, 114, 182, 0.15);
+    box-shadow: 0 4px 24px rgba(244, 114, 182, 0.08);
 }
 
 .face-map-hint {
