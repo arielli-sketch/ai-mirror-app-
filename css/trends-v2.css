@@ -1,4 +1,4 @@
-/* 趋势页面 V2 - 深色霓虹主题 */
+/* 趋势页面 V2 - 深色粉色主题 */
 
 /* 基础样式 */
 * {
@@ -10,8 +10,8 @@
 .app-container {
     width: 100%;
     max-width: 430px;
-    height: 100vh;
-    background: #000000;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1a0a12 0%, #0d0609 100%);
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
@@ -62,10 +62,10 @@
 }
 
 .face-area:hover {
-    fill: rgba(0, 255, 255, 0.4);
-    stroke: rgba(0, 255, 255, 0.9);
+    fill: rgba(244, 114, 182, 0.4);
+    stroke: rgba(244, 114, 182, 0.9);
     stroke-width: 2.5;
-    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.6));
+    filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.6));
 }
 
 .face-map-hint {
@@ -81,8 +81,8 @@
     align-items: center;
     gap: 12px;
     padding: 15px;
-    background: rgba(0, 255, 255, 0.05);
-    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(244, 114, 182, 0.08);
+    border: 1px solid rgba(244, 114, 182, 0.25);
     border-radius: 15px;
     margin-bottom: 25px;
 }
@@ -109,8 +109,8 @@
 
 /* 区域详情卡片 */
 .area-detail-card {
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(0, 255, 255, 0.3);
+    background: rgba(20, 10, 15, 0.9);
+    border: 1px solid rgba(244, 114, 182, 0.35);
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 20px;
@@ -134,7 +134,7 @@
 }
 
 .detail-close:hover {
-    color: #00ffff;
+    color: #f472b6;
 }
 
 .area-detail-header {
@@ -143,7 +143,7 @@
     gap: 15px;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(244, 114, 182, 0.2);
 }
 
 .area-icon {
@@ -159,7 +159,7 @@
 
 .area-status {
     font-size: 13px;
-    color: #00ff88;
+    color: #f9a8d4;
 }
 
 /* 30天变化图表 */
@@ -184,7 +184,7 @@
     aspect-ratio: 4/3;
     border-radius: 12px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(244, 114, 182, 0.05);
     margin-bottom: 15px;
 }
 
@@ -220,7 +220,7 @@
     display: block;
     font-size: 26px;
     font-weight: 700;
-    color: #00ffff;
+    color: #f472b6;
 }
 
 .photo-change {
@@ -232,11 +232,11 @@
 }
 
 .photo-change.up {
-    color: #00ff88;
+    color: #f9a8d4;
 }
 
 .photo-change.down {
-    color: #ff4444;
+    color: #fb7185;
 }
 
 /* 时间轴滑块 */
@@ -249,7 +249,7 @@
     height: 6px;
     -webkit-appearance: none;
     appearance: none;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(244, 114, 182, 0.2);
     border-radius: 3px;
     outline: none;
     margin-bottom: 8px;
@@ -259,10 +259,10 @@
     -webkit-appearance: none;
     width: 20px;
     height: 20px;
-    background: #00ffff;
+    background: linear-gradient(135deg, #f472b6, #c084fc);
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 10px rgba(244, 114, 182, 0.6);
 }
 
 .timeline-info {
@@ -293,8 +293,8 @@
 .quick-nav-btn {
     flex-shrink: 0;
     padding: 6px 12px;
-    background: rgba(0, 255, 255, 0.1);
-    border: 1px solid rgba(0, 255, 255, 0.3);
+    background: rgba(244, 114, 182, 0.15);
+    border: 1px solid rgba(244, 114, 182, 0.35);
     border-radius: 15px;
     font-size: 11px;
     color: rgba(255, 255, 255, 0.7);
@@ -304,20 +304,20 @@
 }
 
 .quick-nav-btn:hover {
-    background: rgba(0, 255, 255, 0.2);
+    background: rgba(244, 114, 182, 0.25);
 }
 
 .quick-nav-btn.active {
-    background: rgba(0, 255, 255, 0.3);
-    border-color: #00ffff;
-    color: #00ffff;
+    background: rgba(244, 114, 182, 0.35);
+    border-color: #f472b6;
+    color: #f9a8d4;
 }
 
 /* 建议文字 */
 .area-advice {
     padding: 15px;
-    background: rgba(0, 255, 136, 0.1);
-    border: 1px solid rgba(0, 255, 136, 0.2);
+    background: rgba(249, 168, 212, 0.1);
+    border: 1px solid rgba(249, 168, 212, 0.25);
     border-radius: 12px;
     font-size: 13px;
     color: rgba(255, 255, 255, 0.8);
@@ -360,8 +360,8 @@
 
 .carousel-card {
     flex: 0 0 100%;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: rgba(20, 10, 15, 0.7);
+    border: 1px solid rgba(244, 114, 182, 0.25);
     border-radius: 20px;
     padding: 20px;
     backdrop-filter: blur(10px);
@@ -387,27 +387,27 @@
 }
 
 .card-badge.high {
-    background: rgba(255, 68, 68, 0.2);
-    color: #ff4444;
-    border: 1px solid rgba(255, 68, 68, 0.3);
+    background: rgba(251, 113, 133, 0.2);
+    color: #fb7185;
+    border: 1px solid rgba(251, 113, 133, 0.4);
 }
 
 .card-badge.medium {
-    background: rgba(255, 165, 0, 0.2);
-    color: #ffa500;
-    border: 1px solid rgba(255, 165, 0, 0.3);
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.4);
 }
 
 .card-badge.low {
-    background: rgba(0, 255, 136, 0.2);
-    color: #00ff88;
-    border: 1px solid rgba(0, 255, 136, 0.3);
+    background: rgba(249, 168, 212, 0.2);
+    color: #f9a8d4;
+    border: 1px solid rgba(249, 168, 212, 0.4);
 }
 
 .card-badge.prediction {
-    background: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    border: 1px solid rgba(0, 255, 255, 0.3);
+    background: rgba(192, 132, 252, 0.2);
+    color: #c084fc;
+    border: 1px solid rgba(192, 132, 252, 0.4);
 }
 
 .card-title {
@@ -429,15 +429,15 @@
 }
 
 .card-highlight.red {
-    color: #ff4444;
+    color: #fb7185;
 }
 
 .card-highlight.green {
-    color: #00ff88;
+    color: #f9a8d4;
 }
 
 .card-highlight {
-    color: #00ffff;
+    color: #f472b6;
 }
 
 /* 渐进式详情 */
@@ -449,8 +449,8 @@
 
 .detail-item {
     padding: 12px 15px;
-    background: rgba(0, 255, 255, 0.05);
-    border-left: 3px solid rgba(0, 255, 255, 0.5);
+    background: rgba(244, 114, 182, 0.08);
+    border-left: 3px solid rgba(244, 114, 182, 0.5);
     border-radius: 8px;
     margin-bottom: 10px;
 }
@@ -481,19 +481,19 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(244, 114, 182, 0.3);
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .nav-dot:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(244, 114, 182, 0.5);
 }
 
 .nav-dot.active {
     width: 24px;
     border-radius: 4px;
-    background: #00ffff;
+    background: linear-gradient(90deg, #f472b6, #c084fc);
 }
 
 /* 轮播箭头 */
@@ -515,10 +515,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(0, 255, 255, 0.3);
+    background: rgba(20, 10, 15, 0.8);
+    border: 1px solid rgba(244, 114, 182, 0.4);
     border-radius: 50%;
-    color: #00ffff;
+    color: #f472b6;
     font-size: 18px;
     cursor: pointer;
     transition: all 0.3s;
@@ -526,8 +526,8 @@
 }
 
 .arrow-btn:hover {
-    background: rgba(0, 255, 255, 0.2);
-    border-color: #00ffff;
+    background: rgba(244, 114, 182, 0.2);
+    border-color: #f472b6;
 }
 
 .arrow-btn:disabled {
