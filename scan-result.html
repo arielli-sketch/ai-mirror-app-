@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>AI 智能镜 - 扫描结果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .time {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 6px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        /* 扫描区域 */
+        .scan-area {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 360px;
+        }
+
+        /* 面部轮廓 */
+        .face-outline {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .face-ellipse {
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 50% 50% 45% 45%;
+            position: relative;
+        }
+
+        /* 扫描线动画 */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(236, 72, 153, 0.4) 20%,
+                rgba(236, 72, 153, 1) 50%,
+                rgba(236, 72, 153, 0.4) 80%,
+                transparent 100%
+            );
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.8);
+            animation: scanMove 3s ease-in-out infinite;
+        }
+
+        @keyframes scanMove {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* 特征点 */
+        .face-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #f472b6;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #f472b6, 0 0 24px rgba(236, 72, 153, 0.6);
+            animation: pointPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pointPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.6; }
+        }
+
+        .point-1 { top: 20%; left: 50%; transform: translateX(-50%); }
+        .point-2 { top: 35%; left: 25%; animation-delay: 0.2s; }
+        .point-3 { top: 35%; right: 25%; animation-delay: 0.3s; }
+        .point-4 { top: 50%; left: 50%; transform: translateX(-50%); animation-delay: 0.4s; }
+        .point-5 { top: 65%; left: 30%; animation-delay: 0.5s; }
+        .point-6 { top: 65%; right: 30%; animation-delay: 0.6s; }
+        .point-7 { top: 80%; left: 50%; transform: translateX(-50%); animation-delay: 0.7s; }
+
+        /* 问题区域高亮 */
+        .problem-area {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 60px;
+            border: 2px solid rgba(251, 113, 133, 0.8);
+            border-radius: 50%;
+            animation: problemPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes problemPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.4);
+                border-color: rgba(251, 113, 133, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 0 15px rgba(251, 113, 133, 0);
+                border-color: rgba(251, 113, 133, 1);
+            }
+        }
+
+        /* 气泡提示 */
+        .bubble {
+            position: absolute;
+            top: 5%;
+            left: 65%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 14px 18px;
+            max-width: 180px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: bubbleIn 0.5s ease-out 0.5s both;
+        }
+
+        @keyframes bubbleIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 30px;
+            width: 16px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            transform: rotate(45deg);
+            border-radius: 3px;
+        }
+
+        .bubble-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #fb7185, #f43f5e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .bubble-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 6px;
+        }
+
+        .bubble-text {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .bubble-highlight {
+            color: #be123c;
+            font-weight: 600;
+        }
+
+        /* 角落装饰 */
+        .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(236, 72, 153, 0.4);
+        }
+
+        .corner-tl {
+            top: 80px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: 80px;
+            right: 20px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: 100px;
+            left: 20px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: 100px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* 底部状态 */
+        .bottom-status {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 2px;
+        }
+
+        .status-dots {
+            display: inline-block;
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .status-dots::after {
+            content: '';
+            animation: dots 1.5s infinite steps(3);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <div class="time">10:30</div>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 角落装饰 -->
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+
+        <!-- 扫描区域 -->
+        <div class="scan-area">
+            <!-- 气泡提示 -->
+            <div class="bubble">
+                <div class="bubble-icon">!</div>
+                <div class="bubble-title">防晒没有抹匀</div>
+                <div class="bubble-text">
+                    检测到 <span class="bubble-highlight">额头左侧</span> 防晒分布不均，建议补涂
+                </div>
+            </div>
+
+            <!-- 面部轮廓 -->
+            <div class="face-outline">
+                <div class="face-ellipse">
+                    <!-- 扫描线 -->
+                    <div class="scan-line"></div>
+
+                    <!-- 问题区域 -->
+                    <div class="problem-area"></div>
+
+                    <!-- 特征点 -->
+                    <div class="face-point point-1"></div>
+                    <div class="face-point point-2"></div>
+                    <div class="face-point point-3"></div>
+                    <div class="face-point point-4"></div>
+                    <div class="face-point point-5"></div>
+                    <div class="face-point point-6"></div>
+                    <div class="face-point point-7"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部状态 -->
+        <div class="bottom-status">
+            <div class="status-text">分析中<span class="status-dots"></span></div>
+        </div>
+    </div>
+
+    <script>
+        // 更新时间
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.querySelector('.time').textContent = `${hours}:${minutes}`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
