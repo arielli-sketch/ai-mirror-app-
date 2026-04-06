@@ -5,9 +5,370 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 智能镜 - 面部扫描</title>
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/scan.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 全息网格背景 */
+        .holographic-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(20px); }
+        }
+
+        /* 粒子效果 */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(236, 72, 153, 0.4);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* 主扫描区域 */
+        .scan-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 420px;
+        }
+
+        /* 雷达环 */
+        .radar-rings {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .radar-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            border-radius: 50%;
+            animation: radarExpand 3s ease-out infinite;
+        }
+
+        .radar-ring:nth-child(2) { animation-delay: 1s; }
+        .radar-ring:nth-child(3) { animation-delay: 2s; }
+
+        @keyframes radarExpand {
+            0% {
+                width: 50px;
+                height: 50px;
+                opacity: 1;
+            }
+            100% {
+                width: 350px;
+                height: 350px;
+                opacity: 0;
+            }
+        }
+
+        /* 面部框架 */
+        .face-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 面部特征点 */
+        .face-points {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .point {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #f472b6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f472b6, 0 0 20px #ec4899;
+            animation: pointPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pointPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.6; }
+        }
+
+        .point-1 { top: 25%; left: 35%; animation-delay: 0s; }
+        .point-2 { top: 25%; right: 35%; animation-delay: 0.1s; }
+        .point-3 { top: 35%; left: 25%; animation-delay: 0.2s; }
+        .point-4 { top: 35%; right: 25%; animation-delay: 0.3s; }
+        .point-5 { top: 45%; left: 50%; transform: translateX(-50%); animation-delay: 0.4s; }
+        .point-6 { top: 55%; left: 30%; animation-delay: 0.5s; }
+        .point-7 { top: 55%; right: 30%; animation-delay: 0.6s; }
+        .point-8 { top: 65%; left: 40%; animation-delay: 0.7s; }
+        .point-9 { top: 65%; right: 40%; animation-delay: 0.8s; }
+        .point-10 { top: 75%; left: 50%; transform: translateX(-50%); animation-delay: 0.9s; }
+
+        /* 角落装饰 */
+        .corner-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(236, 72, 153, 0.4);
+        }
+
+        .corner-tl {
+            top: 80px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+            animation: cornerGlow 2s ease-in-out infinite;
+        }
+
+        .corner-tr {
+            top: 80px;
+            right: 20px;
+            border-left: none;
+            border-bottom: none;
+            animation: cornerGlow 2s ease-in-out infinite 0.5s;
+        }
+
+        .corner-bl {
+            bottom: 140px;
+            left: 20px;
+            border-right: none;
+            border-top: none;
+            animation: cornerGlow 2s ease-in-out infinite 1s;
+        }
+
+        .corner-br {
+            bottom: 140px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+            animation: cornerGlow 2s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes cornerGlow {
+            0%, 100% { opacity: 0.5; box-shadow: none; }
+            50% { opacity: 1; box-shadow: 0 0 15px rgba(236, 72, 153, 0.6); }
+        }
+
+        /* 毛玻璃气泡 */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 18px;
+            padding: 14px 18px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+            animation: bubbleIn 0.5s ease-out both;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 160px;
+        }
+
+        .bubble:hover {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .bubble.hiding {
+            animation: bubbleOut 0.3s ease-in forwards;
+        }
+
+        @keyframes bubbleIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes bubbleOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        .bubble::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            transform: rotate(45deg);
+            border-radius: 2px;
+        }
+
+        /* 气泡位置 */
+        .bubble-1 {
+            top: 15%;
+            right: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .bubble-1::before {
+            bottom: -6px;
+            left: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .bubble-2 {
+            top: 35%;
+            left: 5%;
+            animation-delay: 1s;
+        }
+
+        .bubble-2::before {
+            top: 50%;
+            right: -6px;
+            transform: translateY(-50%) rotate(45deg);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .bubble-3 {
+            bottom: 25%;
+            right: 8%;
+            animation-delay: 1.5s;
+        }
+
+        .bubble-3::before {
+            top: -6px;
+            left: 30px;
+            border-left: 1px solid rgba(255, 255, 255, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .bubble-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .bubble-icon.warning {
+            background: linear-gradient(135deg, #fb7185, #f43f5e);
+            box-shadow: 0 4px 12px rgba(251, 113, 133, 0.4);
+        }
+
+        .bubble-icon.tip {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+
+        .bubble-icon.info {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .bubble-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            line-height: 1.4;
+        }
+
+        /* 导航按钮 */
+        .nav-button {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(236, 72, 153, 0.15);
+            border: 2px solid rgba(236, 72, 153, 0.5);
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: #f472b6;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-button:hover {
+            background: rgba(236, 72, 153, 0.25);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+            transform: translateX(-50%) scale(1.05);
+        }
+    </style>
 </head>
-<body class="scan-page">
+<body>
     <div class="app-container">
         <!-- 全息网格背景 -->
         <div class="holographic-grid"></div>
@@ -15,20 +376,27 @@
         <!-- 粒子效果 -->
         <div class="particles" id="particles"></div>
 
-        <!-- 状态栏 -->
-        <div class="status-bar">
-            <div class="time" id="time">10:30</div>
-            <div class="status-icons">
-                <span>📶</span>
-                <span>🔋</span>
-            </div>
-        </div>
-
         <!-- 角落装饰 -->
         <div class="corner-decoration corner-tl"></div>
         <div class="corner-decoration corner-tr"></div>
         <div class="corner-decoration corner-bl"></div>
         <div class="corner-decoration corner-br"></div>
+
+        <!-- 气泡提示 -->
+        <div class="bubble bubble-1" onclick="hideBubble(this)">
+            <div class="bubble-icon warning">!</div>
+            <div class="bubble-text">防晒没抹匀</div>
+        </div>
+
+        <div class="bubble bubble-2" onclick="hideBubble(this)">
+            <div class="bubble-icon tip">✦</div>
+            <div class="bubble-text">记得抹抗老精华</div>
+        </div>
+
+        <div class="bubble bubble-3" onclick="hideBubble(this)">
+            <div class="bubble-icon info">💧</div>
+            <div class="bubble-text">该补水了</div>
+        </div>
 
         <!-- 主扫描区域 -->
         <div class="scan-container">
@@ -41,13 +409,6 @@
 
             <!-- 面部框架 -->
             <div class="face-frame">
-                <!-- 扫描线 -->
-                <div class="scan-lines">
-                    <div class="scan-line"></div>
-                    <div class="scan-line"></div>
-                    <div class="scan-line"></div>
-                </div>
-
                 <!-- 面部特征点 -->
                 <div class="face-points">
                     <div class="point point-1"></div>
@@ -68,7 +429,28 @@
         <a href="trends-v2.html" class="nav-button">查看数据趋势 →</a>
     </div>
 
-    <script src="js/common.js"></script>
-    <script src="js/scan.js"></script>
+    <script>
+        // 生成粒子
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // 隐藏气泡
+        function hideBubble(bubble) {
+            bubble.classList.add('hiding');
+            setTimeout(() => {
+                bubble.style.display = 'none';
+            }, 300);
+        }
+    </script>
 </body>
 </html>

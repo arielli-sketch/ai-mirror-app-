@@ -81,31 +81,6 @@
             position: relative;
         }
 
-        /* 扫描线动画 */
-        .scan-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(236, 72, 153, 0.4) 20%,
-                rgba(236, 72, 153, 1) 50%,
-                rgba(236, 72, 153, 0.4) 80%,
-                transparent 100%
-            );
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.8);
-            animation: scanMove 3s ease-in-out infinite;
-        }
-
-        @keyframes scanMove {
-            0% { top: 0; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-
         /* 特征点 */
         .face-point {
             position: absolute;
@@ -130,42 +105,23 @@
         .point-6 { top: 65%; right: 30%; animation-delay: 0.6s; }
         .point-7 { top: 80%; left: 50%; transform: translateX(-50%); animation-delay: 0.7s; }
 
-        /* 问题区域高亮 */
-        .problem-area {
-            position: absolute;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 60px;
-            border: 2px solid rgba(251, 113, 133, 0.8);
-            border-radius: 50%;
-            animation: problemPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes problemPulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.4);
-                border-color: rgba(251, 113, 133, 0.8);
-            }
-            50% {
-                box-shadow: 0 0 0 15px rgba(251, 113, 133, 0);
-                border-color: rgba(251, 113, 133, 1);
-            }
-        }
-
-        /* 气泡提示 */
+        /* 气泡提示 - 毛玻璃效果 */
         .bubble {
             position: absolute;
             top: 5%;
-            left: 65%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 14px 18px;
-            max-width: 180px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            animation: bubbleIn 0.5s ease-out 0.5s both;
+            left: 55%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 18px;
+            padding: 16px 20px;
+            max-width: 190px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+            animation: bubbleIn 0.5s ease-out 0.3s both;
         }
 
         @keyframes bubbleIn {
@@ -183,37 +139,44 @@
             content: '';
             position: absolute;
             bottom: -8px;
-            left: 30px;
+            left: 35px;
             width: 16px;
             height: 16px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
             transform: rotate(45deg);
             border-radius: 3px;
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
         }
 
         .bubble-icon {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             background: linear-gradient(135deg, #fb7185, #f43f5e);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 14px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(251, 113, 133, 0.4);
         }
 
         .bubble-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             color: #1f2937;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .bubble-text {
             font-size: 13px;
-            color: #6b7280;
-            line-height: 1.4;
+            color: #4b5563;
+            line-height: 1.5;
         }
 
         .bubble-highlight {
@@ -226,7 +189,7 @@
             position: absolute;
             width: 40px;
             height: 40px;
-            border: 2px solid rgba(236, 72, 153, 0.4);
+            border: 2px solid rgba(236, 72, 153, 0.3);
         }
 
         .corner-tl {
@@ -244,48 +207,17 @@
         }
 
         .corner-bl {
-            bottom: 100px;
+            bottom: 80px;
             left: 20px;
             border-right: none;
             border-top: none;
         }
 
         .corner-br {
-            bottom: 100px;
+            bottom: 80px;
             right: 20px;
             border-left: none;
             border-top: none;
-        }
-
-        /* 底部状态 */
-        .bottom-status {
-            position: absolute;
-            bottom: 40px;
-            left: 0;
-            right: 0;
-            text-align: center;
-        }
-
-        .status-text {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 2px;
-        }
-
-        .status-dots {
-            display: inline-block;
-            animation: dots 1.5s infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60%, 100% { content: '...'; }
-        }
-
-        .status-dots::after {
-            content: '';
-            animation: dots 1.5s infinite steps(3);
         }
     </style>
 </head>
@@ -320,12 +252,6 @@
             <!-- 面部轮廓 -->
             <div class="face-outline">
                 <div class="face-ellipse">
-                    <!-- 扫描线 -->
-                    <div class="scan-line"></div>
-
-                    <!-- 问题区域 -->
-                    <div class="problem-area"></div>
-
                     <!-- 特征点 -->
                     <div class="face-point point-1"></div>
                     <div class="face-point point-2"></div>
@@ -336,11 +262,6 @@
                     <div class="face-point point-7"></div>
                 </div>
             </div>
-        </div>
-
-        <!-- 底部状态 -->
-        <div class="bottom-status">
-            <div class="status-text">分析中<span class="status-dots"></span></div>
         </div>
     </div>
 
